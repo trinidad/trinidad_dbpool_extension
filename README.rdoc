@@ -1,6 +1,35 @@
 = trinidad-dbpool
 
-Description goes here.
+Trinidad extensions to support database connection pools configured into the Apache Tomcat
+container.
+
+== Pools supported
+
+* MySql (trinidad-mysql-dbpool-extension)
+
+== Usage
+
+* Install the extension gem, ie: trinidad-mysql-dbpool-extension
+* Configure the pool into the trinidad's configuration file, ie:
+
+  web_apps:
+     default:
+       extensions:
+        'mysql-dbpool':
+          name: 'jdbc/TestDB'                           # jndi name
+          username: 'root'                              # database username
+          password: 'root'                              # database password
+          url: 'jdbc:mysql://localhost:3306/javatest'   # database url
+          maxActive: 100                                # max nodes actives
+          maxIdle: 30                                   # max nodes idles
+          maxWait: 10000                                # max nodes waiting
+
+* Configure your rails application to use jndi into the config/database.yml
+
+  production:
+    adapter: jdbc
+    jndi: jdbc/TestDB
+    driver: com.mysql.jdbc.Driver
 
 == Note on Patches/Pull Requests
  
