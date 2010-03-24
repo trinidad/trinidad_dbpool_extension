@@ -15,7 +15,9 @@ begin
 
     gem.add_development_dependency "rspec", ">= 1.2.9"
 
-    gem.files = FileList['lib/trinidad-dbpool.rb', 'lib/trinidad-dbpool/webapp_addon.rb', 'LICENSE', 'README.rdoc', 'VERSION']
+    gem.files = FileList['lib/trinidad-dbpool.rb', 'lib/trinidad-dbpool/webapp_addon.rb',
+      'trinidad-libs/tomcat-dbcp.jar',
+      'LICENSE', 'README.rdoc', 'VERSION']
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError

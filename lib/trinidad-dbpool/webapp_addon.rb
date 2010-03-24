@@ -17,11 +17,16 @@ module Trinidad
         resource.setProperty(key.to_s, value.to_s)
       end
 
-      class_loader.addURL(java.io.File.new(driver_jar).to_url)
+      add_library_to_class_loader(class_loader, File.dirname(__FILE__) + '/../../trinidad-libs/tomcat-dbcp.jar')
+      add_library_to_class_loader(class_loader, driver_jar)
       resource.setProperty("driverClassName", driver_name)
 
       app_context.naming_resources.add_resource(resource)
       resource
+    end
+
+    def add_library_to_class_loader(class_loader, file)
+      class_loader.addURL(java.io.File.new(file).to_url)
     end
   end
 end
