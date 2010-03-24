@@ -1,6 +1,6 @@
 def unshift(path)
-  $:.unshift(File.dirname(__FILE__)) unless
-    $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
+  $:.unshift(path) unless
+    $:.include?(path) || $:.include?(File.expand_path(path))
 end
 
 unshift(File.dirname(__FILE__))

@@ -2,7 +2,7 @@ module Trinidad
   class DbpoolWebAppAddon
     def configure(*args)
       puts 'Configuring database connection pool'
-      splat = *args
+      splat = args.flatten
       create_resource(splat[0], splat[1], splat[2])
     end
 
