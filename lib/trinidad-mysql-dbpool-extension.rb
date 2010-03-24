@@ -1,10 +1,11 @@
-$:.unshift(File.dirname(__FILE__)) unless
-  $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
+def unshift(path)
+  $:.unshift(File.dirname(__FILE__)) unless
+    $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
+end
 
-$:.unshift(File.dirname(__FILE__) + '/../trinidad-libs')
+unshift(File.dirname(__FILE__))
+unshift(File.dirname(__FILE__) + '/../trinidad-libs')
 
-require 'java'
-require 'rubygems'
 require 'trinidad-dbpool'
 
 require 'mysql-connector-java-5.1.12-bin'
