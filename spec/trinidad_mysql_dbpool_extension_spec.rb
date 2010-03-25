@@ -5,9 +5,19 @@ describe Trinidad::MysqlDbpoolWebAppAddon do
     @addon = Trinidad::MysqlDbpoolWebAppAddon.new
     @class_loader = org.jruby.util.JRubyClassLoader.new(JRuby.runtime.jruby_class_loader)
     @context = Trinidad::Tomcat::StandardContext.new
+    
+    @tomcat = mock
+    resource_context = mock
+    naming = mock
+
+    naming.stubs(:addResource)
+    resource_context.stubs(:naming_resources).returns(naming)
+    resource_context.stubs(:naming_resources=)
+    @tomcat.stubs(:addContext).returns(resource_context)
 
     @opts = {
-      'name' => 'jdbc/TestDB'
+      'name' => 'test',
+      'jndi' => 'jdbc/TestDB'
     }
   end
 
@@ -37,6 +47,6 @@ describe Trinidad::MysqlDbpoolWebAppAddon do
   end
 
   def configure_addon
-    @addon.configure(@context, @class_loader, @opts)
+    @addon.configure(@tomcat, @context, @class_loader, @opts)
   end
 end
