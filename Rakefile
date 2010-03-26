@@ -5,7 +5,7 @@ namespace :dbpool do
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "trinidad-dbpool"
+    gem.name = "trinidad_dbpool"
     gem.summary = %Q{Addon to support database pools in Trinidad}
     gem.description = %Q{Addon to support database pools in Trinidad}
     gem.email = "calavera@apache.org"
@@ -15,7 +15,7 @@ begin
 
     gem.add_development_dependency "rspec", ">= 1.2.9"
 
-    gem.files = FileList['lib/trinidad-dbpool.rb', 'lib/trinidad-dbpool/webapp_addon.rb',
+    gem.files = FileList['lib/trinidad_dbpool.rb', 'lib/trinidad_dbpool/webapp_extension.rb',
       'trinidad-libs/tomcat-dbcp.jar',
       'LICENSE', 'README.rdoc', 'VERSION']
   end
@@ -29,17 +29,18 @@ namespace :mysql_dbpool do
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "trinidad-mysql-dbpool-extension"
+    gem.name = "trinidad_mysql_dbpool_extension"
     gem.summary = %Q{Addon to support MySql database pools in Trinidad}
     gem.description = %Q{Addon to support MySql database pools in Trinidad}
     gem.email = "calavera@apache.org"
     gem.homepage = "http://github.com/calavera/trinidad-dbpool"
     gem.authors = ["David Calavera"]
-    gem.add_dependency "trinidad-dbpool"
+    gem.add_dependency "trinidad_dbpool"
     gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.add_development_dependency 'mocha'
 
-    gem.files = FileList['lib/trinidad-mysql-dbpool-extension.rb',
-      'lib/trinidad-mysql-dbpool-extension/mysql_webapp_addon.rb',
+    gem.files = FileList['lib/trinidad_mysql_dbpool_extension.rb',
+      'lib/trinidad_mysql_dbpool_extension/mysql_webapp_extension.rb',
       'trinidad-libs/mysql-connector-java-5.1.12-bin.jar',
       'LICENSE', 'README.rdoc', 'VERSION']
   end
