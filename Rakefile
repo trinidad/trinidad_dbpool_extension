@@ -18,6 +18,7 @@ begin
     gem.files = FileList['lib/trinidad_dbpool.rb', 'lib/trinidad_dbpool/webapp_extension.rb',
       'trinidad-libs/tomcat-dbcp.jar',
       'LICENSE', 'README.rdoc', 'VERSION']
+    gem.has_rdoc = false
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
@@ -43,6 +44,7 @@ begin
       'lib/trinidad_mysql_dbpool_extension/mysql_webapp_extension.rb',
       'trinidad-libs/mysql-connector-java-5.1.12-bin.jar',
       'LICENSE', 'README.rdoc', 'VERSION']
+    gem.has_rdoc = false
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
