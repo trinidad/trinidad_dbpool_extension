@@ -4,9 +4,8 @@ describe Trinidad::Extensions::MysqlDbpoolWebAppExtension do
   before(:each) do
     @extension = Trinidad::Extensions::MysqlDbpoolWebAppExtension.new({
       :url => 'jdbc:mysql://localhost:3306/test',
-      'name' => 'test',
-      'jndi' => 'jdbc/TestDB',
-      'maxIdle' => 300
+      :jndi => 'jdbc/TestDB',
+      :maxIdle => 300
     })
     @context = Trinidad::Tomcat::StandardContext.new
 

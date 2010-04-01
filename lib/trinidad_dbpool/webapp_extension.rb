@@ -2,14 +2,14 @@ module Trinidad
   module Extensions
     class DbpoolWebAppExtension < WebAppExtension
       def configure(tomcat, app_context)
-        extension_name = @options.delete('name')
-        jndi = @options.delete('jndi')
+        jndi = @options.delete(:jndi)
+        extension_name = jndi.gsub(/\//, '_')
 
         resource = Trinidad::Tomcat::ContextResource.new
-        resource.setAuth(@options.delete('auth')) if @options.has_key?('auth') 
+        resource.setAuth(@options.delete(:auth)) if @options.has_key?(:auth) 
         resource.setName(jndi)
         resource.setType("javax.sql.DataSource")
-        resource.setDescription(@options.delete('description')) if @options.has_key?('description')
+        resource.setDescription(@options.delete(:description)) if @options.has_key?(:description)
 
         @options.each do |key, value|
           resource.setProperty(key.to_s, value.to_s)
