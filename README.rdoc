@@ -6,6 +6,7 @@ container.
 == Pools supported
 
 * MySql (trinidad_mysql_dbpool_extension)
+* PostgreSQL (trinidad_postgresql_dbpool_extension)
 
 == Usage
 
@@ -15,7 +16,7 @@ container.
   web_apps:
     default:
       extensions:
-        mysql_dbpool:
+        mysql_dbpool:                                   # EXTENSION NAME AS KEY
           jndi: 'jdbc/TestDB'                           # jndi name
           username: 'root'                              # database username
           password: 'root'                              # database password

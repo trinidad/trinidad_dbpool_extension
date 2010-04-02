@@ -52,12 +52,33 @@ rescue LoadError
 end
 end
 
-task :build => ["dbpool:build", "mysql_dbpool:build"]
+namespace :postgresql_dbpool do
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gem|
+    gem.name = "trinidad_postgresql_dbpool_extension"
+    gem.summary = %Q{Addon to support PostgreSQL database pools in Trinidad}
+    gem.description = %Q{Addon to support PostgreSQL database pools in Trinidad}
+    gem.email = "calavera@apache.org"
+    gem.homepage = "http://github.com/calavera/trinidad-dbpool"
+    gem.authors = ["David Calavera"]
+    gem.add_dependency "trinidad_dbpool"
+    gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.add_development_dependency 'mocha'
 
-task :install do
-
-  `jruby -S gem install pkg/trinidad-dbpool-0.1.0.gem pkg/trinidad-mysql-dbpool-extension-0.1.0.gem --no-ri --no-rdoc`
+    gem.files = FileList['lib/trinidad_postgresql_dbpool_extension.rb',
+      'lib/trinidad_postgresql_dbpool_extension/postgresql_webapp_extension.rb',
+      'trinidad-libs/postgresql-8.4-701.jdbc4.jar',
+      'LICENSE', 'README.rdoc', 'VERSION']
+    gem.has_rdoc = false
+  end
+  Jeweler::GemcutterTasks.new
+rescue LoadError
+  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end
+end
+
+task :build => ["dbpool:build", "mysql_dbpool:build", 'postgresql_dbpool:build']
 
 require 'spec/rake/spectask'
 Spec::Rake::SpecTask.new(:spec) do |spec|
