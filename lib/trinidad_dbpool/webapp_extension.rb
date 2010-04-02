@@ -4,6 +4,9 @@ module Trinidad
       def configure(tomcat, app_context)
         jndi = @options.delete(:jndi)
         extension_name = jndi.gsub(/\//, '_')
+        url = @options.delete(:url)
+        url = protocol + url unless %r{^#{protocol}} =~ url
+        @options[:url] = url
 
         resource = Trinidad::Tomcat::ContextResource.new
         resource.setAuth(@options.delete(:auth)) if @options.has_key?(:auth) 
