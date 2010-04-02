@@ -5,11 +5,11 @@ container.
 
 == Pools supported
 
-* MySql (trinidad-mysql-dbpool-extension)
+* MySql (trinidad_mysql_dbpool_extension)
 
 == Usage
 
-* Install the extension gem, ie: trinidad-mysql-dbpool-extension
+* Install the extension gem, ie: jruby -S gem install trinidad_mysql_dbpool_extension
 * Configure the pool into the trinidad's configuration file, ie:
 
   web_apps:
@@ -24,11 +24,12 @@ container.
           maxIdle: 30                                   # max nodes idles
           maxWait: 10000                                # max nodes waiting
 
-While _jndi_, _username_, _password_ and _url_ are mandatory, other
+_jndi_, _username_, _password_ and _url_ are mandatory, while other
 configuration options can be found here:
 
-  http://tomcat.apache.org/tomcat-6.0-doc/jndi-datasource-examples-howto.html
-  http://commons.apache.org/dbcp/configuration.html
+http://tomcat.apache.org/tomcat-6.0-doc/jndi-datasource-examples-howto.html
+
+http://commons.apache.org/dbcp/configuration.html
 
 * Configure your rails application to use jndi into the config/database.yml
 
