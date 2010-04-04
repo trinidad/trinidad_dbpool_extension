@@ -78,7 +78,13 @@ rescue LoadError
 end
 end
 
-task :build => ["dbpool:build", "mysql_dbpool:build", 'postgresql_dbpool:build']
+{
+  :build => 'Build all connection pool gems', 
+  :release => 'Release all connection pool gems'
+}.each do |t, d|
+  desc d
+  task t => ["dbpool:#{t}", "mysql_dbpool:#{t}", "postgresql_dbpool:#{t}"]
+end
 
 require 'spec/rake/spectask'
 Spec::Rake::SpecTask.new(:spec) do |spec|
