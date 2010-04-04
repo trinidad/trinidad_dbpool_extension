@@ -1,4 +1,4 @@
-== 0.1.0 (??)
+== 0.1.0 (2010-04-04)
 * First release
 * General connection pool extension
 * Mysql connection pool extension
