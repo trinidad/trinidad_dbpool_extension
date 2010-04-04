@@ -20,10 +20,6 @@ describe Trinidad::Extensions::MysqlDbpoolWebAppExtension do
     @tomcat.stubs(:addContext).returns(resource_context)
   end
 
-  it "uses the mysql jar driver" do
-    @extension.driver_jar.should =~ /mysql-connector-java-.+jar$/
-  end
-
   it "sets the mysql driver name as a resource property" do
     resource = configure_extension
     resource.getProperty('driverClassName').should == 'com.mysql.jdbc.Driver'
