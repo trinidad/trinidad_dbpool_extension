@@ -19,13 +19,9 @@ module Trinidad
         end
 
         resource.setProperty("driverClassName", driver_name)
-
+        
         app_context.naming_resources.add_resource(resource)
         app_context.naming_resources = resource.naming_resources
-
-        resource_context = tomcat.addContext("/#{extension_name}", '.')
-        resource_context.naming_resources.addResource(resource)
-        resource_context.naming_resources = resource.naming_resources
 
         resource
       end
