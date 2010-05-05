@@ -1,4 +1,10 @@
+== 0.1.1 (2010-05-05)
+
+* Update trinidad_dbpool_extension common gem
+* Remove adding jndi context and resource to the global tomcat context
+
 == 0.1.0 (2010-04-04)
+
 * First release
 * General connection pool extension
 * Mysql connection pool extension

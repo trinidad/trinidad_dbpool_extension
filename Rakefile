@@ -19,6 +19,7 @@ begin
       'trinidad-libs/tomcat-dbcp.jar',
       'LICENSE', 'README.rdoc', 'VERSION']
     gem.has_rdoc = false
+    gem.version = '0.1.1'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
