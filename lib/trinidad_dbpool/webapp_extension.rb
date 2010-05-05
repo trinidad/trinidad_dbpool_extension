@@ -3,7 +3,6 @@ module Trinidad
     class DbpoolWebAppExtension < WebAppExtension
       def configure(tomcat, app_context)
         jndi = @options.delete(:jndi)
-        extension_name = jndi.gsub(/\//, '_')
         url = @options.delete(:url)
         url = protocol + url unless %r{^#{protocol}} =~ url
         @options[:url] = url
@@ -19,7 +18,7 @@ module Trinidad
         end
 
         resource.setProperty("driverClassName", driver_name)
-        
+
         app_context.naming_resources.add_resource(resource)
         app_context.naming_resources = resource.naming_resources
 
