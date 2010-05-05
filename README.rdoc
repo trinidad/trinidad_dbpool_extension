@@ -37,7 +37,6 @@ http://commons.apache.org/dbcp/configuration.html
   production:
     adapter: jdbc
     jndi: java:/comp/env/jdbc/TestDB
-    driver: com.mysql.jdbc.Driver
 
 == Note on Patches/Pull Requests
  
