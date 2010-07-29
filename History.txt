@@ -1,3 +1,7 @@
+== 0.2.0 (2010-07-29)
+
+* Update trinidad_dbpool_extension common gem to support Tomcat 7 
+
 == 0.1.1 (2010-05-05)
 
 * Update trinidad_dbpool_extension common gem
