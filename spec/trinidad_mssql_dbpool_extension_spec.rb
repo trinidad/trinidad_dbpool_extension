@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
-describe Trinidad::Extensions::MysqlDbpoolWebAppExtension do
+describe Trinidad::Extensions::MssqlDbpoolWebAppExtension do
   include DbpoolExampleHelperMethods
 
   before(:each) do
@@ -9,20 +9,20 @@ describe Trinidad::Extensions::MysqlDbpoolWebAppExtension do
     @context = build_context
   end
 
-  it "sets the mysql driver name as a resource property" do
+  it "sets the mssql driver name as a resource property" do
     extension = build_extension @defaults
     resource = extension.configure(@tomcat, @context)
-    resource.get_property('driverClassName').should == 'com.mysql.jdbc.Driver'
+    resource.get_property('driverClassName').should == 'net.sourceforge.jtds.jdbc.Driver'
   end
 
   it "adds the protocol if the url doesn't include it" do
-    options = @defaults.merge :url => 'localhost:3306/without_protocol'
+    options = @defaults.merge :url => '127.0.0.1:1433/without_protocol'
     extension = build_extension options
     resource = extension.configure(@tomcat, @context)
-    resource.get_property('url').should == "jdbc:mysql://#{options[:url]}"
+    resource.get_property('url').should == "jdbc:jtds:sqlserver://#{options[:url]}"
   end
 
   def build_extension options
-    Trinidad::Extensions::MysqlDbpoolWebAppExtension.new options
+    Trinidad::Extensions::MssqlDbpoolWebAppExtension.new(options)
   end
 end
