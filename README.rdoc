@@ -8,6 +8,7 @@ container.
 * MySql (trinidad_mysql_dbpool_extension)
 * PostgreSQL (trinidad_postgresql_dbpool_extension)
 * Mssql (trinidad_mssql_dbpool_extension)
+* Oracle (trinidad_oracle_dbpool_extension)
 
 == Usage
 
