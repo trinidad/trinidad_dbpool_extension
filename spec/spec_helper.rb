@@ -6,6 +6,7 @@ require 'trinidad_dbpool'
 require 'trinidad_mssql_dbpool_extension'
 require 'trinidad_mysql_dbpool_extension'
 require 'trinidad_oracle_dbpool_extension'
+require 'trinidad_postgresql_dbpool_extension'
 require 'spec'
 
 Spec::Runner.configure do |config| 
