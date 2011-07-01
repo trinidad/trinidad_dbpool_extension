@@ -11,15 +11,15 @@ describe Trinidad::Extensions::PostgresqlDbpoolWebAppExtension do
 
   it "sets the postgresql driver name as a resource property" do
     extension = build_extension @defaults
-    resource = extension.configure(@tomcat, @context)
-    resource.get_property('driverClassName').should == 'org.postgresql.Driver'
+    resources = extension.configure(@tomcat, @context)
+    resources.should be_only_and_have_property('driverClassName', 'org.postgresql.Driver')
   end
 
   it "adds the protocol if the url doesn't include it" do
     options = @defaults.merge :url => 'localhost:3306/without_protocol'
     extension = build_extension options
-    resource = extension.configure(@tomcat, @context)
-    resource.get_property('url').should == "jdbc:postgresql://#{options[:url]}"
+    resources = extension.configure(@tomcat, @context)
+    resources.should be_only_and_have_property('url', "jdbc:postgresql://#{options[:url]}")
   end
 
   def build_extension options

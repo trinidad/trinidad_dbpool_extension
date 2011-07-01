@@ -26,21 +26,34 @@ describe Trinidad::Extensions::GenericDbpoolWebAppExtension do
   it "adds the resource to the tomcat standard context" do
     extension = build_extension @defaults
     extension.configure(@tomcat, @context)
-    @context.naming_resources.find_resource('jdbc/TestDB').should_not be_nil
+    context_should_have_resource 'jdbc/TestDB'
   end
 
   it "adds properties to the resource" do
     options = @defaults.merge :maxIdle => 300
     extension = build_extension options
-    resource = extension.configure(@tomcat, @context)
-    resource.get_property('maxIdle').should == '300'
+    resources = extension.configure(@tomcat, @context)
+    resources.should be_only_and_have_property('maxIdle', '300')
   end
 
   it "adds the protocol if the url doesn't include it" do
     options = @defaults.merge :url => "localhost:3306/test_protocol"
     extension = build_extension options
-    resource = extension.configure(@tomcat, @context)
-    resource.get_property('url').should == "jdbc:generic://#{options[:url]}"
+    resources = extension.configure(@tomcat, @context)
+    resources.should be_only_and_have_property('url', "jdbc:generic://#{options[:url]}")
+  end
+
+  it "allows for multiple pools per driver" do
+    options = [@defaults, { :jndi => 'jdbc/TestDB2', :url => '' }]
+    extension = build_extension options
+    resources = extension.configure(@tomcat, @context)
+    resources.should have(2).elements
+    context_should_have_resource 'jdbc/TestDB'
+    context_should_have_resource 'jdbc/TestDB2'
+  end
+
+  def context_should_have_resource name
+    @context.naming_resources.find_resource(name).should_not be_nil
   end
 
   def build_extension options

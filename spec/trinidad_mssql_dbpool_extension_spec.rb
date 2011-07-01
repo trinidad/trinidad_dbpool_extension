@@ -11,15 +11,15 @@ describe Trinidad::Extensions::MssqlDbpoolWebAppExtension do
 
   it "sets the mssql driver name as a resource property" do
     extension = build_extension @defaults
-    resource = extension.configure(@tomcat, @context)
-    resource.get_property('driverClassName').should == 'net.sourceforge.jtds.jdbc.Driver'
+    resources = extension.configure(@tomcat, @context)
+    resources.should be_only_and_have_property('driverClassName', 'net.sourceforge.jtds.jdbc.Driver')
   end
 
   it "adds the protocol if the url doesn't include it" do
     options = @defaults.merge :url => '127.0.0.1:1433/without_protocol'
     extension = build_extension options
-    resource = extension.configure(@tomcat, @context)
-    resource.get_property('url').should == "jdbc:jtds:sqlserver://#{options[:url]}"
+    resources = extension.configure(@tomcat, @context)
+    resources.should be_only_and_have_property('url', "jdbc:jtds:sqlserver://#{options[:url]}")
   end
 
   def build_extension options

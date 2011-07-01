@@ -11,15 +11,15 @@ describe Trinidad::Extensions::MysqlDbpoolWebAppExtension do
 
   it "sets the mysql driver name as a resource property" do
     extension = build_extension @defaults
-    resource = extension.configure(@tomcat, @context)
-    resource.get_property('driverClassName').should == 'com.mysql.jdbc.Driver'
+    resources = extension.configure(@tomcat, @context)
+    resources.should be_only_and_have_property('driverClassName', 'com.mysql.jdbc.Driver')
   end
 
   it "adds the protocol if the url doesn't include it" do
     options = @defaults.merge :url => 'localhost:3306/without_protocol'
     extension = build_extension options
-    resource = extension.configure(@tomcat, @context)
-    resource.get_property('url').should == "jdbc:mysql://#{options[:url]}"
+    resources = extension.configure(@tomcat, @context)
+    resources.should be_only_and_have_property('url', "jdbc:mysql://#{options[:url]}")
   end
 
   def build_extension options

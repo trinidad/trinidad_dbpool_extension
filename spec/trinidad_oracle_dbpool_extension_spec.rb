@@ -11,15 +11,15 @@ describe Trinidad::Extensions::OracleDbpoolWebAppExtension do
 
   it "sets the oracle driver name as a resource property" do
     extension = build_extension @defaults
-    resource = extension.configure(@tomcat, @context)
-    resource.get_property('driverClassName').should == 'oracle.jdbc.driver.OracleDriver'
+    resources = extension.configure(@tomcat, @context)
+    resources.should be_only_and_have_property('driverClassName', 'oracle.jdbc.driver.OracleDriver')
   end
 
   it "adds the protocol if the url doesn't include it" do
     options = @defaults.merge :url => '@127.0.0.1:1433:without_protocol'
     extension = build_extension options
-    resource = extension.configure(@tomcat, @context)
-    resource.get_property('url').should == "jdbc:oracle:thin:#{options[:url]}"
+    resources = extension.configure(@tomcat, @context)
+    resources.should be_only_and_have_property('url', "jdbc:oracle:thin:#{options[:url]}")
   end
 
   def build_extension options
