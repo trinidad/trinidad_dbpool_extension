@@ -79,12 +79,64 @@ rescue LoadError
 end
 end
 
+namespace :mssql_dbpool do
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gem|
+    gem.name = "trinidad_mssql_dbpool_extension"
+    gem.summary = %Q{Addon to support Mssql database pools in Trinidad}
+    gem.description = %Q{Addon to support Mssql database pools in Trinidad}
+    gem.email = "btatnall@gmail.com"
+    gem.homepage = "http://github.com/calavera/trinidad-dbpool"
+    gem.authors = ["Brian Tatnall"]
+    gem.add_dependency "trinidad_dbpool"
+    gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.add_development_dependency 'mocha'
+
+    gem.files = FileList['lib/trinidad_mssql_dbpool_extension.rb',
+      'lib/trinidad_mssql_dbpool_extension/mssql_webapp_extension.rb',
+      'trinidad-libs/jtds-1.2.5.jar',
+      'LICENSE', 'README.rdoc', 'VERSION']
+    gem.has_rdoc = false
+  end
+  Jeweler::GemcutterTasks.new
+rescue LoadError
+  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
+end
+end
+
+namespace :oracle_dbpool do
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gem|
+    gem.name = "trinidad_oracle_dbpool_extension"
+    gem.summary = %Q{Addon to support Oracle database pools in Trinidad}
+    gem.description = %Q{Addon to support Oracle database pools in Trinidad}
+    gem.email = "btatnall@gmail.com"
+    gem.homepage = "http://github.com/calavera/trinidad-dbpool"
+    gem.authors = ["Brian Tatnall"]
+    gem.add_dependency "trinidad_dbpool"
+    gem.add_development_dependency "rspec", ">= 1.2.9"
+    gem.add_development_dependency 'mocha'
+
+    gem.files = FileList['lib/trinidad_oracle_dbpool_extension.rb',
+      'lib/trinidad_oracle_dbpool_extension/oracle_webapp_extension.rb',
+      'trinidad-libs/ojdbc14.jar',
+      'LICENSE', 'README.rdoc', 'VERSION']
+    gem.has_rdoc = false
+  end
+  Jeweler::GemcutterTasks.new
+rescue LoadError
+  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
+end
+end
+
 {
   :build => 'Build all connection pool gems', 
   :release => 'Release all connection pool gems'
 }.each do |t, d|
   desc d
-  task t => ["dbpool:#{t}", "mysql_dbpool:#{t}", "postgresql_dbpool:#{t}"]
+  task t => ["dbpool:#{t}", "mysql_dbpool:#{t}", "postgresql_dbpool:#{t}", "mssql_dbpool:#{t}", "oracle_dbpool:#{t}"]
 end
 
 require 'spec/rake/spectask'
