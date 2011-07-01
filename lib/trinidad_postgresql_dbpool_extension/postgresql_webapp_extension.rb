@@ -8,5 +8,6 @@ module Trinidad
       def protocol
         'jdbc:postgresql://'
       end
+    end
   end
 end
