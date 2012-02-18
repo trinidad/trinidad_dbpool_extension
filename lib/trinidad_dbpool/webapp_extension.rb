@@ -16,6 +16,8 @@ module Trinidad
         url = opts.delete(:url)
         url = protocol + url unless %r{^#{protocol}} =~ url
         opts[:url] = url
+                
+        driver_name = opts.delete(:driver) || self.driver_name
 
         resource = Trinidad::Tomcat::ContextResource.new
         resource.set_auth(opts.delete(:auth)) if opts.key?(:auth)
