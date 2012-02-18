@@ -1,0 +1,2 @@
+require 'trinidad_dbpool'
+require 'trinidad_generic_dbpool_extension/generic_webapp_extension'
