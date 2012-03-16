@@ -9,7 +9,7 @@ begin
     gem.summary = %Q{Addon to support database pools in Trinidad}
     gem.description = %Q{Addon to support database pools in Trinidad}
     gem.email = "calavera@apache.org"
-    gem.homepage = "http://github.com/calavera/trinidad-dbpool"
+    gem.homepage = "http://github.com/trinidad/trinidad_dbpool_extension"
     gem.authors = ["David Calavera"]
     gem.add_dependency "trinidad_jars"
 
@@ -19,7 +19,7 @@ begin
       'trinidad-libs/tomcat-dbcp.jar',
       'LICENSE', 'README.rdoc', 'VERSION']
     gem.has_rdoc = false
-    gem.version = '0.3.0'
+    gem.version = '0.3.1'
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
@@ -35,7 +35,7 @@ begin
     gem.summary = %Q{Addon to support MySql database pools in Trinidad}
     gem.description = %Q{Addon to support MySql database pools in Trinidad}
     gem.email = "calavera@apache.org"
-    gem.homepage = "http://github.com/calavera/trinidad-dbpool"
+    gem.homepage = "http://github.com/trinidad/trinidad_dbpool_extension"
     gem.authors = ["David Calavera"]
     gem.add_dependency "trinidad_dbpool"
     gem.add_development_dependency "rspec", ">= 1.2.9"
@@ -61,7 +61,7 @@ begin
     gem.summary = %Q{Addon to support PostgreSQL database pools in Trinidad}
     gem.description = %Q{Addon to support PostgreSQL database pools in Trinidad}
     gem.email = "calavera@apache.org"
-    gem.homepage = "http://github.com/calavera/trinidad-dbpool"
+    gem.homepage = "http://github.com/trinidad/trinidad_dbpool_extension"
     gem.authors = ["David Calavera"]
     gem.add_dependency "trinidad_dbpool"
     gem.add_development_dependency "rspec", ">= 1.2.9"
@@ -87,7 +87,7 @@ begin
     gem.summary = %Q{Addon to support Mssql database pools in Trinidad}
     gem.description = %Q{Addon to support Mssql database pools in Trinidad}
     gem.email = "btatnall@gmail.com"
-    gem.homepage = "http://github.com/calavera/trinidad-dbpool"
+    gem.homepage = "http://github.com/trinidad/trinidad_dbpool_extension"
     gem.authors = ["Brian Tatnall"]
     gem.add_dependency "trinidad_dbpool"
     gem.add_development_dependency "rspec", ">= 1.2.9"
@@ -113,7 +113,7 @@ begin
     gem.summary = %Q{Addon to support Oracle database pools in Trinidad}
     gem.description = %Q{Addon to support Oracle database pools in Trinidad}
     gem.email = "btatnall@gmail.com"
-    gem.homepage = "http://github.com/calavera/trinidad-dbpool"
+    gem.homepage = "http://github.com/trinidad/trinidad_dbpool_extension"
     gem.authors = ["Brian Tatnall"]
     gem.add_dependency "trinidad_dbpool"
     gem.add_development_dependency "rspec", ">= 1.2.9"

@@ -4,14 +4,14 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{trinidad_dbpool}
-  s.version = "0.3.0"
+  s.name = "trinidad_dbpool"
+  s.version = "0.3.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["David Calavera"]
-  s.date = %q{2011-07-02}
-  s.description = %q{Addon to support database pools in Trinidad}
-  s.email = %q{calavera@apache.org}
+  s.date = "2012-03-16"
+  s.description = "Addon to support database pools in Trinidad"
+  s.email = "calavera@apache.org"
   s.extra_rdoc_files = [
     "LICENSE",
     "README.rdoc"
@@ -24,10 +24,10 @@ Gem::Specification.new do |s|
     "lib/trinidad_dbpool/webapp_extension.rb",
     "trinidad-libs/tomcat-dbcp.jar"
   ]
-  s.homepage = %q{http://github.com/calavera/trinidad-dbpool}
+  s.homepage = "http://github.com/trinidad/trinidad_dbpool_extension"
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.5.1}
-  s.summary = %q{Addon to support database pools in Trinidad}
+  s.rubygems_version = "1.8.10"
+  s.summary = "Addon to support database pools in Trinidad"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
