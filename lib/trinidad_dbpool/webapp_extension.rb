@@ -4,7 +4,7 @@ module Trinidad
       def configure(tomcat, app_context)
         case @options
         when Hash
-          [create_resource tomcat, app_context, @options]
+          [create_resource(tomcat, app_context, @options)]
         when Array
           @options.map { |opts| create_resource tomcat, app_context, opts }
         end
