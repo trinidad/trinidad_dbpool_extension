@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = "trinidad_mysql_dbpool_extension"
-  s.version = '0.1.0'
+  s.version = '0.4.0'
   
   s.summary = "Addon to support MySQL database pools in Trinidad"
   s.description = "Addon to support MySQL database pools in Trinidad"
@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
     "README.rdoc"
   ]
   
-  s.add_dependency('trinidad_dbpool', ">= 0.3.0")
+  s.add_dependency('trinidad_dbpool', ">= 0.4.0")
   s.add_development_dependency('rspec', ">= 2.10")
   s.add_development_dependency('mocha', '>= 0.10')
 end
