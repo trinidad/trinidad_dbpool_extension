@@ -1,4 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require 'trinidad_mysql_dbpool_extension'
 
 describe Trinidad::Extensions::MysqlDbpoolWebAppExtension do
   include DbpoolExampleHelperMethods

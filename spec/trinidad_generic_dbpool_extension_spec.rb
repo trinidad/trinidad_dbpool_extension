@@ -1,4 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require 'trinidad_generic_dbpool_extension'
 
 describe Trinidad::Extensions::GenericDbpoolWebAppExtension do
   include DbpoolExampleHelperMethods
@@ -16,13 +17,14 @@ describe Trinidad::Extensions::GenericDbpoolWebAppExtension do
   end
 
   it "adds the protocol if the url doesn't include it" do
-    options = @defaults.merge :url => 'localhost:3306/without_protocol'
+    url = 'localhost:3306/without_protocol'
+    options = @defaults.merge :url => url
     extension = build_extension options
     resources = extension.configure(@tomcat, @context)
-    resources.should be_only_and_have_property('url', "jdbc:#{options[:url]}")
+    resources.should be_only_and_have_property('url', "jdbc:#{url}")
   end
 
   def build_extension options
-    Trinidad::Extensions::MysqlDbpoolWebAppExtension.new options
+    Trinidad::Extensions::GenericDbpoolWebAppExtension.new options
   end
 end
