@@ -2,19 +2,19 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 module Trinidad
   module Extensions
-    class GenericDbpoolWebAppExtension < DbpoolWebAppExtension
+    class StubDbpoolWebAppExtension < DbpoolWebAppExtension
       def driver_name
-        'generic.Driver'
+        'stub.Driver'
       end
 
       def protocol
-        'jdbc:generic://'
+        'jdbc:stub://'
       end
     end
   end
 end
 
-describe Trinidad::Extensions::GenericDbpoolWebAppExtension do
+describe Trinidad::Extensions::StubDbpoolWebAppExtension do
   include DbpoolExampleHelperMethods
 
   before(:each) do
@@ -40,7 +40,7 @@ describe Trinidad::Extensions::GenericDbpoolWebAppExtension do
     options = @defaults.merge :url => "localhost:3306/test_protocol"
     extension = build_extension options
     resources = extension.configure(@tomcat, @context)
-    resources.should be_only_and_have_property('url', "jdbc:generic://#{options[:url]}")
+    resources.should be_only_and_have_property('url', "jdbc:stub://#{options[:url]}")
   end
 
   it "allows for multiple pools per driver" do
@@ -57,6 +57,6 @@ describe Trinidad::Extensions::GenericDbpoolWebAppExtension do
   end
 
   def build_extension options
-    Trinidad::Extensions::GenericDbpoolWebAppExtension.new options
+    Trinidad::Extensions::StubDbpoolWebAppExtension.new options
   end
 end
