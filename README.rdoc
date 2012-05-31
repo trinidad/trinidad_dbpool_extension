@@ -1,45 +1,84 @@
 = trinidad-dbpool
 
-Trinidad extensions to support database connection pools configured into the Apache Tomcat
-container.
+Trinidad extensions to support database connection pooling on top of the 
+underlying Apache Tomcat container.
 
-== Pools supported
+Please note, that such pools are usually configured as "global" and thus 
+shareable by multiple applications deployed on to of Trinidad server.
 
-* MySql (trinidad_mysql_dbpool_extension)
+== Available Pools
+
+* MySQL (trinidad_mysql_dbpool_extension)
 * PostgreSQL (trinidad_postgresql_dbpool_extension)
-* Mssql (trinidad_mssql_dbpool_extension)
+* MS-SQL (trinidad_mssql_dbpool_extension) using (unofficial) jTDS driver
 * Oracle (trinidad_oracle_dbpool_extension)
+* Generic (trinidad_generic_dbpool_extension) in case your DB ain't supported
 
 == Usage
 
-* Install the extension gem, ie: jruby -S gem install trinidad_mysql_dbpool_extension
-* Configure the pool into the trinidad's configuration file, ie:
+* Install the gem e.g. `jruby -S gem install trinidad_mysql_dbpool_extension`
+* Configure the pool with Trinidad's configuration file e.g. :
 
-  web_apps:
-    default:
-      extensions:
-        mysql_dbpool:                                   # EXTENSION NAME AS KEY
-          jndi: 'jdbc/TestDB'                           # jndi name
-          username: 'root'                              # database username
-          password: 'root'                              # database password
-          url: 'jdbc:mysql://localhost:3306/javatest'   # database url
-          maxActive: 100                                # max nodes actives
-          maxIdle: 30                                   # max nodes idles
-          maxWait: 10000                                # max nodes waiting
+    web_apps:
+      default:
+        extensions:
+          mysql_dbpool:                        # EXTENSION NAME AS KEY
+            jndi: 'jdbc/TestDB'                # JNDI name
+            username: 'root'                   # database username
+            password: 'root'                   # database password
+            url: 'localhost:3306/javatest'     # database URL (or full jdbc: URL)
+            maxActive: 100                     # max nodes actives
+            maxIdle: 30                        # max nodes idles
+            maxWait: 10000                     # max nodes waiting
 
-_jndi_, _username_, _password_ and _url_ are mandatory, while other
-configuration options can be found here:
+_jndi_, _username_, _password_ and _url_ are mandatory, 
+while other supported configuration options might be found here:
 
 http://tomcat.apache.org/tomcat-6.0-doc/jndi-datasource-examples-howto.html
 
 http://commons.apache.org/dbcp/configuration.html
 
-* Configure your rails application to use jndi into the config/database.yml
+* Configure your rails application to use JNDI into the config/database.yml
 
-  production:
-    adapter: jdbc
-    jndi: java:/comp/env/jdbc/TestDB
-    driver: com.mysql.jdbc.Driver     # jdbc driver is mandatory
+    production:
+      adapter: jdbc
+      jndi: java:/comp/env/jdbc/TestDB
+      driver: com.mysql.jdbc.Driver # JDBC driver is mandatory here
+
+== Generic Pool
+
+If there's no "official" pool for your database, or would like to use a 
+different version of a JDBC driver for a supported Trinidad pool, this allows
+you to completely customize a pool.
+
+NOTE: You will need a JDBC driver for your database, check the driver DB if 
+unsure about how to get one http://developers.sun.com/product/jdbc/drivers
+
+Sample configuration for a DB2 database :
+
+    ---
+      extensions:
+        generic_dbpool:                          # EXTENSION NAME AS KEY
+          jndi: 'jdbc/MyDB'                      # JNDI name
+          url: 'jdbc:db2://127.0.0.1:50000/MYDB' # specify full jdbc: URL
+          username: 'mydb'                       # database username
+          password: 'pass'                       # database password
+          driverPath: '/opt/IBM/DB2/db2jcc4.jar' # leave out if it's on class-path
+          driverName: com.ibm.db2.jcc.DB2Driver  # might resolve from driverPath
+
+Beyond standard configuration options there's 2 specific options here :
+
+* _driverPath_ should be a path to your JDBC driver archive, if you're using a
+  --libs jar folder with trinidad, might leave that out but make sure it's on 
+  the class-path for each and every deployed application that requires it.
+
+  Also in case driverPath: is ommited you'll need to specify a driverName: !
+
+* _driverName_ the class name implementing the JDBC driver interface, if you're
+  not sure check the .jar for a META-INF/services/java.sql.Driver file. If 
+  present that file contains the class-name and you might leave driverName: 
+  blank if you specified the jar path using driverPath: but you're going still
+  going to need the driver name in your database.yml
 
 == Note on Patches/Pull Requests
  
@@ -47,10 +86,8 @@ http://commons.apache.org/dbcp/configuration.html
 * Make your feature addition or bug fix.
 * Add tests for it. This is important so I don't break it in a
   future version unintentionally.
-* Commit, do not mess with rakefile, version, or history.
-  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
 == Copyright
 
-Copyright (c) 2010 David Calavera. See LICENSE for details.
+Copyright (c) 2010-2012 David Calavera. See LICENSE for details.

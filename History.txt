@@ -1,3 +1,13 @@
+== 0.4.0 (2012-05-31)
+
+* revised trinidad_generic_dbpool_extension :
+  - driver configuration option aliased as driverName
+  - new driverPath option for specifying driver jar in configuration
+  - allow driverName to be auto resolved when driverPath specified
+* trinidad_postgresql_dbpool_extension with driver updated to 9.1-902
+* trinidad_mysql_dbpool_extension with mysql-connector-j 5.1.20
+* code cleanup, get rid of jeweler, update tomcat-dbcp.jar for trinidad_dbpool
+
 == 0.3.0 (2011-07-01)
 
 * Oracle connection pool extension

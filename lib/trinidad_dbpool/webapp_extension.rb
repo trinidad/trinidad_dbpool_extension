@@ -10,21 +10,29 @@ module Trinidad
         end
       end
       
-      private
-      def create_resource tomcat, app_context, opts
-        jndi, url = opts.delete(:jndi), opts.delete(:url)
+      protected
+      def create_resource tomcat, app_context, options
+        jndi, url = options.delete(:jndi), options.delete(:url)
         url = protocol + url unless %r{^#{protocol}} =~ url
-        opts[:url] = url
-                
-        driver_name = opts.delete(:driver) || self.driver_name
+        options[:url] = url
         
+        driver_name = options.delete(:driver) || options.delete(:driverName) || 
+                      self.driver_name
+                    
+        # <Resource name="jdbc/MyDB" 
+        #           auth="Container" 
+        #           type="javax.sql.DataSource"
+        #           url="jdbc:mysql://localhost:3306/mydb"
+        #           driverClassName="com.mysql.jdbc.Driver"
+        #           maxActive="100" maxIdle="30" maxWait="10000"
+        #           username="root" password="secret" />
         resource = Trinidad::Tomcat::ContextResource.new
-        resource.set_auth(opts.delete(:auth)) if opts.has_key?(:auth)
-        resource.set_description(opts.delete(:description)) if opts.has_key?(:description)
+        resource.set_auth(options.delete(:auth)) if options.has_key?(:auth)
+        resource.set_description(options.delete(:description)) if options.has_key?(:description)
         resource.set_name(jndi)
         resource.set_type('javax.sql.DataSource')
 
-        opts.each { |key, value| resource.set_property(key.to_s, value.to_s) }
+        options.each { |key, value| resource.set_property(key.to_s, value.to_s) }
         resource.set_property('driverClassName', driver_name)
 
         app_context.naming_resources.add_resource(resource)

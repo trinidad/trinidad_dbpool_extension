@@ -24,6 +24,18 @@ describe Trinidad::Extensions::GenericDbpoolWebAppExtension do
     resources.should be_only_and_have_property('url', "jdbc:#{url}")
   end
 
+  it "attempts to resolve driver name from jar path if specified" do
+    extension = build_extension @defaults.merge :driverPath => File.join(File.dirname(__FILE__), 'dummy-driver')
+    resources = extension.configure(@tomcat, @context)
+    resources.should be_only_and_have_property('driverClassName', 'org.trinidad.jdbc.DummyDriver')
+  end
+
+  it "specified path to driver jar classes are loadable" do
+    extension = build_extension @defaults.merge :driverPath => File.join(File.dirname(__FILE__), 'dummy-driver.jar')
+    resources = extension.configure(@tomcat, @context)
+    lambda { org.trinidad.jdbc.DummyDriver }.should_not raise_error
+  end
+  
   def build_extension options
     Trinidad::Extensions::GenericDbpoolWebAppExtension.new options
   end
