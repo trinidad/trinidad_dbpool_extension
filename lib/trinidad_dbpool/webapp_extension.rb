@@ -6,7 +6,7 @@ module Trinidad
         when Hash
           [create_resource(tomcat, app_context, @options)]
         when Array
-          @options.map { |opts| create_resource tomcat, app_context, opts }
+          @options.map { |opts| create_resource tomcat, app_context, Hash[opts.map{|(k,v)| [k.to_sym,v]}] }
         end
       end
       
