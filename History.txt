@@ -1,3 +1,11 @@
+== 0.4.1 (2012-11-29)
+
+* updated driver jars for following :
+  - trinidad_mysql_dbpool_extension
+  - trinidad_postgresql_dbpool_extension
+  - trinidad_mssql_dbpool_extension
+* added trinidad_sqlite_dbpool_extension
+
 == 0.4.0 (2012-05-31)
 
 * revised trinidad_generic_dbpool_extension :
