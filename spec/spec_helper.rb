@@ -21,9 +21,9 @@ end
 
 module DbpoolExampleHelperMethods
   def mock_tomcat
-    tomcat = mock
-    resource_context = mock
-    naming = mock
+    tomcat = mock('tomcat')
+    resource_context = mock('resource_context')
+    naming = mock('naming')
     naming.stubs(:addResource)
     resource_context.stubs(:naming_resources).returns(naming)
     resource_context.stubs(:naming_resources=)

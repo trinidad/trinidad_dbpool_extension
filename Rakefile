@@ -32,12 +32,13 @@ def release(gem, version = nil)
 end
 
 all_gems = %W{ 
-  dbpool 
-  generic_dbpool_extension 
-  mysql_dbpool_extension 
-  postgresql_dbpool_extension 
-  mssql_dbpool_extension 
-  oracle_dbpool_extension 
+  dbpool
+  generic_dbpool_extension
+  mysql_dbpool_extension
+  postgresql_dbpool_extension
+  sqlite_dbpool_extension
+  mssql_dbpool_extension
+  oracle_dbpool_extension
 }
 all_gems.map! { |gem| "trinidad_#{gem}" }
 all_gems.each do |gem_name|
