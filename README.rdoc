@@ -90,4 +90,5 @@ Beyond standard configuration options there's 2 specific options here :
 
 == Copyright
 
-Copyright (c) 2010-2012 David Calavera. See LICENSE for details.
+Copyright (c) 2012 [Team Trinidad](https://github.com/trinidad). 
+See LICENSE (http://en.wikipedia.org/wiki/MIT_License) for details.

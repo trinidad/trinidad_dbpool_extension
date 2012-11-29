@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = "trinidad_postgresql_dbpool_extension"
-  s.version = '0.4.0'
+  s.version = '0.4.1'
   
   s.summary = "Addon to support PostgreSQL database pools in Trinidad"
   s.description = "Addon to support PostgreSQL database pools in Trinidad"
