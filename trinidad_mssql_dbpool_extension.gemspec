@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = "trinidad_mssql_dbpool_extension"
-  s.version = '0.4.1'
+  s.version = '0.4.2'
   
   s.summary = "Addon to support MS SQL Server database pools in Trinidad"
   s.description = "Addon to support MS SQL Server database pools in Trinidad"
