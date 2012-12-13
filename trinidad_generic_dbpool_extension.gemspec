@@ -1,29 +1,26 @@
 # -*- encoding: utf-8 -*-
 
-Gem::Specification.new do |s|
-  s.name = "trinidad_generic_dbpool_extension"
-  s.version = '0.4.0'
+Gem::Specification.new do |gem|
+  gem.name = "trinidad_generic_dbpool_extension"
+  gem.version = '0.4.0'
   
-  s.summary = "Addon to support generic database pools in Trinidad"
-  s.description = "Addon to support generic database pools in Trinidad"
-  s.homepage = "http://github.com/trinidad/trinidad_dbpool_extension"
-  s.authors = ["Patrick Cheng", "Karol Bucek"]
-  s.email = ["patrickyccheng@gmail.com", "self@kares.org"]
+  gem.summary = "Addon to support generic database pools in Trinidad"
+  gem.description = "Addon to support generic database pools in Trinidad"
+  gem.homepage = "http://github.com/trinidad/trinidad_dbpool_extension"
+  gem.authors = ["Patrick Cheng", "Karol Bucek"]
+  gem.email = ["patrickyccheng@gmail.com", "self@kares.org"]
   
-  s.files =  [ "lib/trinidad_generic_dbpool_extension.rb" ] +
+  gem.files =  [ "lib/trinidad_generic_dbpool_extension.rb" ] +
   `git ls-files lib/trinidad_generic_dbpool_extension/*.rb`.split("\n") + 
   `git ls-files `.split("\n").
     select { |name| File.dirname(name) == File.dirname(__FILE__) }.
     select { |name| name !~ /^\./ && name !~ /gemspec/ }
   
-  s.require_paths = ["lib"]
+  gem.require_paths = ["lib"]
 
-  s.extra_rdoc_files = [
-    "LICENSE",
-    "README.rdoc"
-  ]
+  gem.extra_rdoc_files = [ 'README.md', 'History.txt', 'LICENSE' ]
   
-  s.add_dependency('trinidad_dbpool', ">= 0.4.0")
-  s.add_development_dependency('rspec', ">= 2.10")
-  s.add_development_dependency('mocha', '>= 0.10')
+  gem.add_dependency('trinidad_dbpool', ">= 0.4.0")
+  gem.add_development_dependency('rspec', ">= 2.10")
+  gem.add_development_dependency('mocha', '>= 0.10')
 end

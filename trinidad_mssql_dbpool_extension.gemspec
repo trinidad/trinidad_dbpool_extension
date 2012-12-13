@@ -1,30 +1,27 @@
 # -*- encoding: utf-8 -*-
 
-Gem::Specification.new do |s|
-  s.name = "trinidad_mssql_dbpool_extension"
-  s.version = '0.4.2'
+Gem::Specification.new do |gem|
+  gem.name = "trinidad_mssql_dbpool_extension"
+  gem.version = '0.4.2'
   
-  s.summary = "Addon to support MS SQL Server database pools in Trinidad"
-  s.description = "Addon to support MS SQL Server database pools in Trinidad"
-  s.homepage = "http://github.com/trinidad/trinidad_dbpool_extension"
-  s.authors = ["Brian Tatnall"]
-  s.email = %q{btatnall@gmail.com}
+  gem.summary = "Addon to support MS SQL Server database pools in Trinidad"
+  gem.description = "Addon to support MS SQL Server database pools in Trinidad"
+  gem.homepage = "http://github.com/trinidad/trinidad_dbpool_extension"
+  gem.authors = ["Brian Tatnall"]
+  gem.email = %q{btatnall@gmail.com}
   
-  s.files =  [ "lib/trinidad_mssql_dbpool_extension.rb" ] +
+  gem.files =  [ "lib/trinidad_mssql_dbpool_extension.rb" ] +
   `git ls-files lib/trinidad_mssql_dbpool_extension/*.rb`.split("\n") + 
   `git ls-files trinidad-libs/*jtds*.jar`.split("\n") + 
   `git ls-files `.split("\n").
     select { |name| File.dirname(name) == File.dirname(__FILE__) }.
     select { |name| name !~ /^\./ && name !~ /gemspec/ }
   
-  s.require_paths = ["lib"]
+  gem.require_paths = ["lib"]
 
-  s.extra_rdoc_files = [
-    "LICENSE",
-    "README.rdoc"
-  ]
+  gem.extra_rdoc_files = [ 'README.md', 'History.txt', 'LICENSE' ]
   
-  s.add_dependency('trinidad_dbpool', ">= 0.4.0")
-  s.add_development_dependency('rspec', ">= 2.10")
-  s.add_development_dependency('mocha', '>= 0.10')
+  gem.add_dependency('trinidad_dbpool', ">= 0.4.0")
+  gem.add_development_dependency('rspec', ">= 2.10")
+  gem.add_development_dependency('mocha', '>= 0.10')
 end
