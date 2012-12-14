@@ -48,13 +48,24 @@ http://tomcat.apache.org/tomcat-7.0-doc/jndi-datasource-examples-howto.html
 
 http://commons.apache.org/dbcp/configuration.html
 
+If you happen to be using *SQLite* on production you'll need an absolute path :
+
+```yml
+  extensions:
+    sqlite_dbpool:
+      jndi: jdbc/FileDB
+      url: <%= File.expand_path('db/production.db') %>
+```
+
 * Configure the (Rails) application to use JNDI with *config/database.yml*
 
 ```yml
 production:
-  adapter: jdbcmysql # jdbcpostgresql, jdbcsqlite3, jdbcmssql etc.
+  adapter: jdbc # it will detect the adapter spec e.g. `ArJdbc::MySQL`
   jndi: java:/comp/env/jdbc/TestDB
-  #driver: com.mysql.jdbc.Driver # only needed with generic 'jdbc' adapter
+  # (Java) JDBC driver class name is detected for built-in adapters that
+  # activerecord-jdbc-adapter supports, specify for a "generic" adapter
+  #driver: com.mysql.jdbc.Driver
 ```
 
 do not forget to delete **pool** setup part since there's no need for it ...
