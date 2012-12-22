@@ -96,10 +96,11 @@ Sample configuration for a DB2 database :
 Beyond standard configuration options there's 2 specific options here :
 
 * **driverPath** should be a path to your JDBC driver archive, might leave that
-  out but make sure it's on the class-path for each and every deployed 
-  application that requires it.
+  out but make sure it's on the (shared) class-path for each and every deployed 
+  application that requires it. You might specify multiple jars using the 
+  `Dir.glob` syntax or by separating paths using the `:` separator.
 
-  Also in case *driverPath* is ommited you'll need to specify a *driverName* !
+  Also in case *driverPath* is omitted you'll need to specify a *driverName* !
 
 * **driverName** the class name implementing the JDBC driver interface, if 
   you're not sure check the .jar for a META-INF/services/java.sql.Driver file.

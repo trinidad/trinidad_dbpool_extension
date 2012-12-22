@@ -23,18 +23,20 @@ module Trinidad
       end
       
       def driver_name
-        if driver_path = self.driver_path(true)
-          driver_path = java.io.File.new(driver_path).absolute_path
-          if File.exist?(driver_path)
-            url = java.net.URL.new "jar:file://#{driver_path}!/META-INF/services/java.sql.Driver"
+        return @driver_name if defined? @driver_name
+        driver_path.find do |path|
+          path = java.io.File.new(path).absolute_path
+          if File.exist?(path)
+            url = java.net.URL.new "jar:file://#{path}!/META-INF/services/java.sql.Driver"
             begin
               reader = java.io.InputStreamReader.new( url.openStream )
-              return java.io.BufferedReader.new( reader ).readLine
+              return @driver_name = java.io.BufferedReader.new( reader ).readLine
             rescue java.io.FileNotFoundException
+              false
             end
           end
         end
-        nil
+        @driver_name = nil
       end
 
       def protocol
