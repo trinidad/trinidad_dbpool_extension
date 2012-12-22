@@ -58,3 +58,50 @@ namespace :all do
   desc "Build and install all gems into system gems"
   task 'install' => all_gems.map { |gem_name| "#{gem_name}:install" }
 end
+
+namespace :'tomcat-dbcp' do
+  
+  TOMCAT_MAVEN_REPO = 'http://repo2.maven.org/maven2/org/apache/tomcat'
+
+  TRINIDAD_LIBS = File.expand_path('./trinidad-libs', File.dirname(__FILE__))
+
+  dbcp_jar = "tomcat-dbcp.jar"
+  
+  task :download, :version do |_, args|
+    version = [ args[:version] ]
+    
+    dbcp_uri = "#{TOMCAT_MAVEN_REPO}/tomcat-dbcp/#{version}/tomcat-dbcp-#{version}.jar"
+    
+    require 'open-uri'; require 'tmpdir'
+
+    temp_dir = File.join(Dir.tmpdir, (Time.now.to_f * 1000).to_i.to_s)
+    FileUtils.mkdir temp_dir
+
+    downloads = Hash.new
+    downloads[dbcp_jar] = dbcp_uri
+
+    Dir.chdir(temp_dir) do
+      FileUtils.mkdir TRINIDAD_LIBS unless File.exist?(TRINIDAD_LIBS)
+      downloads.each do |jar, uri|
+        puts "downloading #{uri}"
+        file = open(uri)
+        FileUtils.cp file.path, File.join(TRINIDAD_LIBS, jar)
+      end
+    end
+
+    FileUtils.rm_r temp_dir
+  end
+  
+  task :check do
+    jar_path = File.join(TRINIDAD_LIBS, dbcp_jar)
+    unless File.exist?(jar_path)
+      Rake::Task['tomcat-jndi:download'].invoke
+    end
+  end
+
+  task :clear do
+    jar_path = File.join(TRINIDAD_LIBS, dbcp_jar)
+    rm jar_path if File.exist?(jar_path)
+  end
+
+end
