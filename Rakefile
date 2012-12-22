@@ -1,35 +1,23 @@
-require 'rubygems'
-require 'rake'
-
-def build(gem)
-  mkdir_p 'pkg'
-  sh "gem build #{gem}.gemspec"
-  mv Dir["#{gem}*.gem"].last, 'pkg'
+begin
+  require 'bundler/gem_helper'
+rescue LoadError => e
+  require('rubygems') && retry
+  raise e
 end
 
-def release(gem, version = nil)
-  unless `git branch` =~ /^\* master$/
-    raise "must be on master to release !"
-  end
-  
-  if version
-    unless gem_file = Dir.glob("pkg/#{gem}-#{version}.gem").first
-      raise "#{gem}-#{version}.gem not build !"
-    end
-  else
-    unless gem_file = Dir.glob("pkg/#{gem}*").sort.last
-      raise "#{gem}*.gem not build !"
-    end
-    unless match = gem_file.match(/.*?\-(\d\.\d\.\d)\.gem/)
-      raise "version number not matched from: #{gem_file}"
-    end
-    version = match[1]
-  end
-  
-  sh "git tag #{gem}-#{version}"
-  sh "git push origin master --tags"
-  sh "gem push #{gem_file}"
+task :default => :spec
+
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:spec) do |spec|
+  spec.rspec_opts = ['--color', "--format documentation"]
 end
+
+desc "Clear out all built (pkg/* and *.gem) artifacts"
+task :clear do
+  rm Dir["*.gem"]
+  rm_r Dir["pkg/*"] if File.exist?("pkg")
+end
+task :clean => :clear
 
 all_gems = %W{ 
   dbpool
@@ -39,38 +27,34 @@ all_gems = %W{
   sqlite_dbpool_extension
   mssql_dbpool_extension
   oracle_dbpool_extension
-}
-all_gems.map! { |gem| "trinidad_#{gem}" }
+}.map { |gem| "trinidad_#{gem}" }
+
 all_gems.each do |gem_name|
-  namespace gem_name do
-    desc "Build the #{gem_name} gem"
-    task :build do
-      build(gem_name)
-    end
-    desc "Release the #{gem_name} gem"
-    task :release => :build do
-      release(gem_name)
-    end
+  
+  gem_helper = Bundler::GemHelper.new(Dir.pwd, gem_name)
+  def gem_helper.version_tag
+    "#{name}-#{version}" # override "v#{version}"
   end
+  version = gem_helper.send(:version)
+  version_tag = gem_helper.version_tag
+  
+  namespace gem_name do
+    desc "Build #{gem_name}-#{version}.gem into the pkg directory"
+    task('build') { gem_helper.build_gem }
+
+    desc "Build and install #{gem_name}-#{version}.gem into system gems"
+    task('install') { gem_helper.install_gem }
+
+    desc "Create tag #{version_tag} and build and push #{gem_name}-#{version}.gem to Rubygems"
+    task('release') { gem_helper.release_gem }
+  end
+  
 end
 
-{
-  :build => 'Build all connection pool gems', 
-  :release => 'Release all connection pool gems'
-}.each do |t, d|
-  desc d
-  task t => all_gems.map { |name| "#{name}:#{t}" } # e.g. mysql_dbpool:build
-end
+namespace :all do
+  desc "Build all gems into the pkg directory"
+  task 'build' => all_gems.map { |gem_name| "#{gem_name}:build" }
 
-desc "Clear out all built .gem files"
-task :clear do
-  FileUtils.rm Dir["*.gem"]
-  FileUtils.rm_r Dir["pkg/*"] if File.exist?("pkg")
+  desc "Build and install all gems into system gems"
+  task 'install' => all_gems.map { |gem_name| "#{gem_name}:install" }
 end
-
-require 'rspec/core/rake_task'
-RSpec::Core::RakeTask.new(:spec) do |spec|
-  spec.rspec_opts = ['--color', "--format documentation"]
-end
-
-task :default => :spec
