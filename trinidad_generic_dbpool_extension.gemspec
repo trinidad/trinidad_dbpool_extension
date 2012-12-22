@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |gem|
   gem.name = "trinidad_generic_dbpool_extension"
-  gem.version = '0.4.0'
+  gem.version = '0.4.2'
   
   gem.summary = "Addon to support generic database pools in Trinidad"
   gem.description = "Addon to support generic database pools in Trinidad"
