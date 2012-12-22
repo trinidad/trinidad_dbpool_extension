@@ -2,13 +2,15 @@ module Trinidad
   module Extensions
     class GenericDbpoolWebAppExtension < DbpoolWebAppExtension
       
+      PATH_SEPARATOR = java.io.File::pathSeparator
+      
       def driver_path(first = nil)
         path = @driver_path || []
         first ? path.first : path
       end
       
       def driver_path=(path)
-        path = ( path || '' ).split(':') # : PATH separator
+        path = ( path || '' ).split(PATH_SEPARATOR)
         path.map! do |jar|
           jars = Dir.glob(jar)
           if jars.empty? # normalize .jar ext
