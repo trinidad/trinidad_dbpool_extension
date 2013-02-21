@@ -1,6 +1,10 @@
 require 'rspec'
 require 'rspec/expectations'
-require 'mocha'
+begin
+  require 'mocha/api'
+rescue LoadError
+  require 'mocha'
+end
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
