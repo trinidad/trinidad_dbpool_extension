@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |gem|
   gem.name = "trinidad_dbpool"
-  gem.version = "0.4.2"
+  gem.version = "0.4.3"
 
   gem.summary = "Addon to support database pools in Trinidad"
   gem.description = "Addon to support database pools in Trinidad"
@@ -21,7 +21,7 @@ Gem::Specification.new do |gem|
   
   gem.extra_rdoc_files = [ 'README.md', 'History.txt', 'LICENSE', 'Rakefile' ]
 
-  gem.add_dependency('trinidad_jars', ">= 1.0.2")
+  gem.add_dependency('trinidad_jars', ">= 1.2.0")
   gem.add_development_dependency('rspec', ">= 2.10")
   gem.add_development_dependency('mocha', '>= 0.10')
 end
