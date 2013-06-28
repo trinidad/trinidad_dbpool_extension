@@ -1,9 +1,9 @@
 # Trinidad Database Pool
 
-A bunch of Trinidad extensions to support database connection pooling on top of 
+A bunch of Trinidad extensions to support database connection pooling on top of
 the underlying Apache Tomcat container (using Tomcat's JDBC Connection Pool).
 
-Please note, that such pools are usually configured as "global" and thus 
+Please note, that such pools are usually configured as "global" and thus
 shareable by multiple applications deployed on to of the Trinidad server.
 
 Also most Java issues caused by JDBC drivers packaged with the application (e.g.
@@ -18,7 +18,6 @@ http://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html
 * PostgreSQL (trinidad_postgresql_dbpool_extension)
 * SQLite (trinidad_sqlite_dbpool_extension)
 * MS-SQL (trinidad_mssql_dbpool_extension) using (unofficial) jTDS driver
-* Oracle (trinidad_oracle_dbpool_extension)
 * Generic (trinidad_generic_dbpool_extension) in case your DB ain't supported
 
 ## Usage
@@ -41,7 +40,7 @@ http://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html
 ```
 
 **jndi**, **url** are mandatory (as well **username** and **password** if your
-database server + driver requires authentication), while other supported 
+database server + driver requires authentication), while other supported
 configuration options might be found here in Tomcat's "datasource" how-to:
 
 http://tomcat.apache.org/tomcat-7.0-doc/jndi-datasource-examples-howto.html
@@ -72,11 +71,11 @@ do not forget to delete **pool** setup part since there's no need for it ...
 
 ## Generic Pool
 
-If there's no "official" pool for your database, or would like to use a 
+If there's no "official" pool for your database, or would like to use a
 different version of a JDBC driver for a supported Trinidad pool, this allows
 you to completely customize a pool.
 
-NOTE: You will need a JDBC driver for your database, check the driver DB if 
+NOTE: You will need a JDBC driver for your database, check the driver DB if
 unsure about how to get one http://developers.sun.com/product/jdbc/drivers
 
 Sample configuration for a DB2 database :
@@ -96,13 +95,13 @@ Sample configuration for a DB2 database :
 Beyond standard configuration options there's 2 specific options here :
 
 * **driverPath** should be a path to your JDBC driver archive, might leave that
-  out but make sure it's on the (shared) class-path for each and every deployed 
-  application that requires it. You might specify multiple jars using the 
+  out but make sure it's on the (shared) class-path for each and every deployed
+  application that requires it. You might specify multiple jars using the
   `Dir.glob` syntax or by separating paths using the `:` separator.
 
   Also in case *driverPath* is omitted you'll need to specify a *driverName* !
 
-* **driverName** the class name implementing the JDBC driver interface, if 
+* **driverName** the class name implementing the JDBC driver interface, if
   you're not sure check the .jar for a META-INF/services/java.sql.Driver file.
   If present that file contains the class-name and you might leave *driverName*
   blank if you specified the jar path using *driverPath* but you're going still
@@ -110,5 +109,5 @@ Beyond standard configuration options there's 2 specific options here :
 
 ## Copyright
 
-Copyright (c) 2012 [Team Trinidad](https://github.com/trinidad). 
+Copyright (c) 2013 [Team Trinidad](https://github.com/trinidad).
 See LICENSE (http://en.wikipedia.org/wiki/MIT_License) for details.
