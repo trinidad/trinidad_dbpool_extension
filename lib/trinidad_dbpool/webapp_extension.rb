@@ -1,6 +1,7 @@
 module Trinidad
   module Extensions
     class DbpoolWebAppExtension < WebAppExtension
+
       def configure(tomcat, app_context)
         case @options
         when Hash
@@ -9,18 +10,21 @@ module Trinidad
           @options.map { |opts| create_resource tomcat, app_context, opts }
         end
       end
-      
+
       protected
+
       def create_resource tomcat, app_context, options
         jndi, url = options.delete(:jndi), options.delete(:url)
         url = protocol + url unless %r{^#{protocol}} =~ url
         options[:url] = url
-        
-        driver_name = options.delete(:driver) || options.delete(:driverName) || 
+
+        load_driver
+
+        driver_name = options.delete(:driver) || options.delete(:driverName) ||
                       self.driver_name
-                    
-        # <Resource name="jdbc/MyDB" 
-        #           auth="Container" 
+
+        # <Resource name="jdbc/MyDB"
+        #           auth="Container"
         #           type="javax.sql.DataSource"
         #           url="jdbc:mysql://localhost:3306/mydb"
         #           driverClassName="com.mysql.jdbc.Driver"
@@ -40,6 +44,9 @@ module Trinidad
 
         resource
       end
+
+      def load_driver; end
+
     end
   end
 end

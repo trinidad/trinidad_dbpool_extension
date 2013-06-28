@@ -1,14 +1,14 @@
 module Trinidad
   module Extensions
     class GenericDbpoolWebAppExtension < DbpoolWebAppExtension
-      
+
       PATH_SEPARATOR = java.io.File::pathSeparator
-      
+
       def driver_path(first = nil)
         path = @driver_path || []
         first ? path.first : path
       end
-      
+
       def driver_path=(path)
         path = ( path || '' ).split(PATH_SEPARATOR)
         path.map! do |jar|
@@ -23,7 +23,7 @@ module Trinidad
         path.flatten!
         @driver_path = path
       end
-      
+
       def driver_name
         return @driver_name if defined? @driver_name
         driver_path.find do |path|
@@ -44,24 +44,22 @@ module Trinidad
       def protocol
         'jdbc:'
       end
-      
+
       protected
-      
+
       def create_resource tomcat, app_context, options
         path = options.delete(:driverPath) || options.delete(:driver_path)
         self.driver_path = path if path
         if path && driver_path.empty?
           warn "no driver matched with specified :driverPath = #{path.inspect}"
-        else
-          load_driver
         end
         super
       end
-      
+
       def load_driver
         driver_path.each { |jar| load jar }
       end
-      
+
     end
   end
 end

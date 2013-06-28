@@ -36,7 +36,7 @@ describe Trinidad::Extensions::GenericDbpoolWebAppExtension do
     extension.configure(@tomcat, @context)
     extension.driver_name.should == 'org.trinidad.jdbc.DummyDriver'
   end
-  
+
   it "specified path to driver jar classes are loadable" do
     extension = build_extension @defaults.merge :driverPath => File.join(File.dirname(__FILE__), 'dummy-driver.jar')
     resources = extension.configure(@tomcat, @context)
@@ -44,11 +44,11 @@ describe Trinidad::Extensions::GenericDbpoolWebAppExtension do
   end
 
   it "supports glob-ing and multiple paths in driverPath" do
-    extension = build_extension @defaults.merge :driver_path => 'spec/dummy-driver:trinidad-libs/mysql*.jar'
+    extension = build_extension @defaults.merge :driver_path => 'spec/dummy-driver:spec/mysql*.jar'
     extension.configure(@tomcat, @context)
-    extension.driver_path.should == ["spec/dummy-driver.jar", "trinidad-libs/mysql-connector-java-5.1.22.jar"]
+    extension.driver_path.should == ["spec/dummy-driver.jar", "spec/mysql-connector-java-5.1.22.jar"]
   end
-  
+
   def build_extension options
     Trinidad::Extensions::GenericDbpoolWebAppExtension.new options
   end
