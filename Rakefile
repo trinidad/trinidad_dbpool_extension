@@ -26,7 +26,6 @@ all_gems = %W{
   postgresql_dbpool_extension
   sqlite_dbpool_extension
   mssql_dbpool_extension
-  oracle_dbpool_extension
 }.map { |gem| "trinidad_#{gem}" }
 
 all_gems.each do |gem_name|
