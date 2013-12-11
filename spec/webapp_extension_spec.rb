@@ -52,6 +52,50 @@ describe Trinidad::Extensions::StubDbpoolWebAppExtension do
     context_should_have_resource 'jdbc/TestDB2'
   end
 
+  it "sets up jdbc pool's factory by default" do
+    options = @defaults.merge :jndi => 'jdbc/TestDB', :url => 'jdbc:test://127.0.0.1:42/X'
+    extension = build_extension options
+    extension.configure(@tomcat, @context)
+
+    resource = @context.naming_resources.find_resource('jdbc/TestDB')
+    expect( resource ).to_not be nil
+
+    expect( resource.get_property('factory') ).to eql 'org.apache.tomcat.jdbc.pool.DataSourceFactory'
+    Java::JavaClass.for_name resource.get_property('factory')
+  end
+
+  it "sets resource type of data-source by default" do
+    options = @defaults.merge :jndi => 'jdbc/TestDB'
+    extension = build_extension options
+    extension.configure(@tomcat, @context)
+
+    resource = @context.naming_resources.find_resource('jdbc/TestDB')
+    expect( resource.get_type ).to eql 'javax.sql.DataSource'
+  end
+
+  it "allows to override resource defaults" do
+    options = @defaults.merge :jndi => 'jdbc/TestDB', :type => 'javax.sql.XADataSource', :auth => 'User'
+    extension = build_extension options
+    extension.configure(@tomcat, @context)
+
+    resource = @context.naming_resources.find_resource('jdbc/TestDB')
+    expect( resource.get_type ).to eql 'javax.sql.XADataSource'
+    expect( resource.get_auth ).to eql 'User'
+  end
+
+  it "supports 'deprecated' dbcp pool" do
+    options = @defaults.merge :jndi => 'jdbc/TestDB', :pool => 'dbcp'
+    # expect( @context.logger ).to receive(:info).once
+    extension = build_extension options
+    extension.configure(@tomcat, @context)
+
+    resource = @context.naming_resources.find_resource('jdbc/TestDB')
+    expect( resource ).to_not be nil
+
+    expect( resource.get_property('factory') ).to be nil
+    Java::JavaClass.for_name 'org.apache.tomcat.dbcp.dbcp.ConnectionFactory'
+  end
+
   def context_should_have_resource name
     @context.naming_resources.find_resource(name).should_not be_nil
   end
@@ -59,4 +103,5 @@ describe Trinidad::Extensions::StubDbpoolWebAppExtension do
   def build_extension options
     Trinidad::Extensions::StubDbpoolWebAppExtension.new options
   end
+
 end
