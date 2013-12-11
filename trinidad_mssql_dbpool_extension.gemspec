@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |gem|
   gem.name = "trinidad_mssql_dbpool_extension"
-  gem.version = '0.5.0'
+  gem.version = '0.7.0'
 
   gem.summary = "Addon to support MS SQL Server database pools in Trinidad"
   gem.description = "Addon to support MS SQL Server database pools in Trinidad"
@@ -20,8 +20,6 @@ Gem::Specification.new do |gem|
 
   gem.extra_rdoc_files = [ 'README.md', 'History.txt', 'LICENSE' ]
 
-  gem.add_dependency('trinidad_dbpool', ">= 0.5.0")
-  gem.add_dependency('jdbc-jtds', ">= 1.2.7")
-  gem.add_development_dependency('rspec', ">= 2.10")
-  gem.add_development_dependency('mocha', '>= 0.10')
+  gem.add_dependency('trinidad_dbpool', ">= 0.7.0")
+  gem.add_dependency('jdbc-jtds', ">= 1.2.8")
 end
