@@ -29,23 +29,27 @@ http://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html
   web_apps:
     default:
       extensions:
-        mysql_dbpool:                    # EXTENSION NAME AS KEY
-          jndi: 'jdbc/TestDB'            # name (linked with database.yml)
-          url: 'localhost:3306/javatest' # database URL (or full jdbc: URL)
-          username: 'root'               # database username
-          password: 'root'               # database password
-          maxActive: 100                 # max nodes actives
-          maxIdle: 30                    # max nodes idles
-          maxWait: 10000                 # max nodes waiting
+        mysql_dbpool:                   # EXTENSION NAME AS KEY
+          jndi: 'jdbc/MySampleDB'       # name (linked with database.yml)
+          url: 'localhost:3306/sample'  # database URL (or full jdbc: URL)
+          username: root
+          password: root
+          maxActive:  100  # maximum number of connections managed by the pool
+          initialSize: 10  # initial number of connections created in the pool
+          maxWait:  10000  # ms the pool waits for a connection to be returned
 ```
 
 **jndi**, **url** are mandatory (as well **username** and **password** if your
 database server + driver requires authentication), while other supported
-configuration options might be found here in Tomcat's "datasource" how-to:
+configuration options might be found here in Tomcat's JDBC pool documentation :
 
-http://tomcat.apache.org/tomcat-7.0-doc/jndi-datasource-examples-howto.html
+http://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html#Common_Attributes
 
-http://commons.apache.org/dbcp/configuration.html
+**NOTE:** starting version 0.7 we switched to using Tomcat's JDBC pool which
+is simpler and more performant pool designed specifically for Tomcat/Trinidad.
+
+If you insist on using [DBCP](http://commons.apache.org/dbcp/configuration.html)
+set the (deprecated) *pool: dbcp* option along side your pool configuration ...
 
 If you happen to be using *SQLite* on production you'll need an absolute path :
 
@@ -60,11 +64,11 @@ If you happen to be using *SQLite* on production you'll need an absolute path :
 
 ```yml
 production:
-  adapter: jdbc # it will detect the adapter spec e.g. `ArJdbc::MySQL`
-  jndi: java:/comp/env/jdbc/TestDB
+  adapter: mysql
+  jndi: java:/comp/env/jdbc/MySampleDB
   # (Java) JDBC driver class name is detected for built-in adapters that
   # activerecord-jdbc-adapter supports, specify for a "generic" adapter
-  #driver: com.mysql.jdbc.Driver
+  # driver: com.mysql.jdbc.Driver
 ```
 
 do not forget to delete **pool** setup part since there's no need for it ...

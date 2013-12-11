@@ -1,3 +1,11 @@
+== 0.7.0 (2013-12-11)
+
+**NOTE:** tomcat-dbcp.jar contains patched Commons-DBCP pool implementation !
+We're now switching to tomcat-jdbc.jar (which we kind of assumed we're using).
+
+ * packaged in tomcat-jdbc.jar (from 7.0.47) bundle version 1.1.0.1
+ * updated tomcat-dbcp.jar (keeping it for a while for compatibility)
+
 == 0.5.0 (2013-06-28)
 
  * updated tomcat-dbcp.jar to 7.0.41 ... due recent fixes in 7.0.39 / 7.0.40 :
