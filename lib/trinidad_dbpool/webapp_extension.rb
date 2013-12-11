@@ -1,3 +1,5 @@
+require 'trinidad'
+
 module Trinidad
   module Extensions
     class DbpoolWebAppExtension < WebAppExtension

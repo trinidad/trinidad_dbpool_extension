@@ -1,3 +1,5 @@
+require 'trinidad_dbpool/webapp_extension'
+
 module Trinidad
   module Extensions
     class MssqlDbpoolWebAppExtension < DbpoolWebAppExtension
