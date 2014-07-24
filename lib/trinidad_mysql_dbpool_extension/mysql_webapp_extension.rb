@@ -18,6 +18,15 @@ module Trinidad
         Jdbc::MySQL.load_driver if defined?(Jdbc::MySQL.load_driver)
       end
 
+      def connection_properties
+        {
+          'zeroDateTimeBehavior' => 'convertToNull',
+          'jdbcCompliantTruncation' => false,
+          'useUnicode' => true,
+          'characterEncoding' => 'utf8',
+        }
+      end
+
     end
   end
 end

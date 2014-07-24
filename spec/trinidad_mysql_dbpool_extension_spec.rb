@@ -22,4 +22,21 @@ describe Trinidad::Extensions::MysqlDbpoolWebAppExtension do
     resources.should be_only_and_have_property('url', "jdbc:mysql://#{options[:url]}")
   end
 
+  it "sets default connection properties" do
+    options = @defaults.merge :url => '127.0.0.1/mydb'
+    extension = new_webapp_extension :mysql, options
+    resources = extension.configure(@tomcat, @context)
+    resource = resources.first
+    expect( resource.get_property('connectionProperties') ).to match /zeroDateTimeBehavior=convertToNull/
+    expect( resource.get_property('connectionProperties') ).to match /useUnicode=true;/
+  end
+
+  it "overrides default connection properties" do
+    options = @defaults.merge :url => '/mydb', :properties => 'ferko=suska'
+    extension = new_webapp_extension :mysql, options
+    resources = extension.configure(@tomcat, @context)
+    resource = resources.first
+    expect( resource.get_property('connectionProperties') ).to eql 'ferko=suska'
+  end
+
 end
