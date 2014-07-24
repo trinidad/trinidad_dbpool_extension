@@ -1,5 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
+require 'trinidad_dbpool/webapp_extension'
+
 module Trinidad
   module Extensions
     class StubDbpoolWebAppExtension < DbpoolWebAppExtension
@@ -16,7 +18,7 @@ end
 
 describe Trinidad::Extensions::StubDbpoolWebAppExtension do
 
-  before(:each) do
+  before do
     @defaults = { :jndi => 'jdbc/TestDB', :url => '' }
     @context = new_context; @tomcat = mock_tomcat
   end
@@ -32,6 +34,18 @@ describe Trinidad::Extensions::StubDbpoolWebAppExtension do
     extension = new_webapp_extension :stub, options
     resources = extension.configure(@tomcat, @context)
     resources.should be_only_and_have_property('maxIdle', '300')
+  end
+
+  it "camelizes resource properties" do
+    options = @defaults.merge :validation_query => 'SELECT 111',
+      :init_sql => 'SELECT PHI()', :max_age => 9000, 'connectionProperties' => 'ferko=suska'
+    extension = new_webapp_extension :stub, options
+    resources = extension.configure(@tomcat, @context)
+    resource = resources.first
+    resource.get_property('validationQuery').should == 'SELECT 111'
+    resource.get_property('initSQL').should == 'SELECT PHI()'
+    resource.get_property('maxAge').should == '9000'
+    resource.get_property('connectionProperties').should == 'ferko=suska'
   end
 
   it "adds the protocol if the url doesn't include it" do
@@ -95,7 +109,7 @@ describe Trinidad::Extensions::StubDbpoolWebAppExtension do
   end
 
   def context_should_have_resource name
-    @context.naming_resources.find_resource(name).should_not be_nil
+    expect( @context.naming_resources.find_resource(name) ).to_not be nil
   end
 
 end
