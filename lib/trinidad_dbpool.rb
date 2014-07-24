@@ -7,7 +7,7 @@ module Trinidad
     class << self
 
       def create_resource(context, options, protocol = nil)
-        jndi, url = options.delete(:jndi), options.delete(:url)
+        name = options.delete(:name) || options.delete(:jndi); url = options.delete(:url)
         if ! url.start_with?('jdbc:') && protocol
           url = "#{protocol}#{url}" unless url.start_with?(protocol)
         end
@@ -27,7 +27,7 @@ module Trinidad
 
         driver = options.delete(:driver) || options.delete(:driverName) || options.delete(:driver_name)
 
-        context.logger.debug "Using JDBC URL: #{url.inspect} for #{jndi}"
+        context.logger.debug "Using JDBC URL: #{url.inspect} for #{name}"
 
         # <Resource name="jdbc/MyDB"
         #           auth="Container"
@@ -39,7 +39,7 @@ module Trinidad
         resource = Trinidad::Tomcat::ContextResource.new
         resource.set_auth(options.delete(:auth)) if options.key?(:auth)
         resource.set_description(options.delete(:description)) if options.key?(:description)
-        resource.set_name(jndi)
+        resource.set_name(name)
         resource.set_type(options.delete(:type) || 'javax.sql.DataSource')
         resource.set_property('factory', resource_factory) if resource_factory
         resource.set_property('driverClassName', driver)
