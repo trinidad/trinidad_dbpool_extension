@@ -15,37 +15,35 @@ module Trinidad
 end
 
 describe Trinidad::Extensions::StubDbpoolWebAppExtension do
-  include DbpoolExampleHelperMethods
 
   before(:each) do
     @defaults = { :jndi => 'jdbc/TestDB', :url => '' }
-    @context = build_context
-    @tomcat = mock_tomcat
+    @context = new_context; @tomcat = mock_tomcat
   end
 
   it "adds the resource to the tomcat standard context" do
-    extension = build_extension @defaults
+    extension = new_webapp_extension :stub, @defaults
     extension.configure(@tomcat, @context)
     context_should_have_resource 'jdbc/TestDB'
   end
 
   it "adds properties to the resource" do
     options = @defaults.merge :maxIdle => 300
-    extension = build_extension options
+    extension = new_webapp_extension :stub, options
     resources = extension.configure(@tomcat, @context)
     resources.should be_only_and_have_property('maxIdle', '300')
   end
 
   it "adds the protocol if the url doesn't include it" do
     options = @defaults.merge :url => "localhost:3306/test_protocol"
-    extension = build_extension options
+    extension = new_webapp_extension :stub, options
     resources = extension.configure(@tomcat, @context)
     resources.should be_only_and_have_property('url', "jdbc:stub://#{options[:url]}")
   end
 
   it "allows for multiple pools per driver" do
     options = [@defaults, { :jndi => 'jdbc/TestDB2', :url => '' }]
-    extension = build_extension options
+    extension = new_webapp_extension :stub, options
     resources = extension.configure(@tomcat, @context)
     resources.should have(2).elements
     context_should_have_resource 'jdbc/TestDB'
@@ -54,7 +52,7 @@ describe Trinidad::Extensions::StubDbpoolWebAppExtension do
 
   it "sets up jdbc pool's factory by default" do
     options = @defaults.merge :jndi => 'jdbc/TestDB', :url => 'jdbc:test://127.0.0.1:42/X'
-    extension = build_extension options
+    extension = new_webapp_extension :stub, options
     extension.configure(@tomcat, @context)
 
     resource = @context.naming_resources.find_resource('jdbc/TestDB')
@@ -66,7 +64,7 @@ describe Trinidad::Extensions::StubDbpoolWebAppExtension do
 
   it "sets resource type of data-source by default" do
     options = @defaults.merge :jndi => 'jdbc/TestDB'
-    extension = build_extension options
+    extension = new_webapp_extension :stub, options
     extension.configure(@tomcat, @context)
 
     resource = @context.naming_resources.find_resource('jdbc/TestDB')
@@ -75,7 +73,7 @@ describe Trinidad::Extensions::StubDbpoolWebAppExtension do
 
   it "allows to override resource defaults" do
     options = @defaults.merge :jndi => 'jdbc/TestDB', :type => 'javax.sql.XADataSource', :auth => 'User'
-    extension = build_extension options
+    extension = new_webapp_extension :stub, options
     extension.configure(@tomcat, @context)
 
     resource = @context.naming_resources.find_resource('jdbc/TestDB')
@@ -86,7 +84,7 @@ describe Trinidad::Extensions::StubDbpoolWebAppExtension do
   it "supports 'deprecated' dbcp pool" do
     options = @defaults.merge :jndi => 'jdbc/TestDB', :pool => 'dbcp'
     # expect( @context.logger ).to receive(:info).once
-    extension = build_extension options
+    extension = new_webapp_extension :stub, options
     extension.configure(@tomcat, @context)
 
     resource = @context.naming_resources.find_resource('jdbc/TestDB')
@@ -98,10 +96,6 @@ describe Trinidad::Extensions::StubDbpoolWebAppExtension do
 
   def context_should_have_resource name
     @context.naming_resources.find_resource(name).should_not be_nil
-  end
-
-  def build_extension options
-    Trinidad::Extensions::StubDbpoolWebAppExtension.new options
   end
 
 end
