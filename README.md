@@ -113,5 +113,5 @@ Beyond standard configuration options there's 2 specific options here :
 
 ## Copyright
 
-Copyright (c) 2013 [Team Trinidad](https://github.com/trinidad).
+Copyright (c) 2014 [Team Trinidad](https://github.com/trinidad).
 See LICENSE (http://en.wikipedia.org/wiki/MIT_License) for details.
