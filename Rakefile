@@ -58,49 +58,46 @@ namespace :all do
   task 'install' => all_gems.map { |gem_name| "#{gem_name}:install" }
 end
 
-namespace :'tomcat-dbcp' do
+['tomcat-jdbc', 'tomcat-dbcp'].each do |tomcat_pool|
 
-  TOMCAT_MAVEN_REPO = 'http://repo2.maven.org/maven2/org/apache/tomcat'
+  namespace tomcat_pool do
 
-  TRINIDAD_LIBS = File.expand_path('./trinidad-libs', File.dirname(__FILE__))
+    tomcat_maven_repo = 'http://repo2.maven.org/maven2/org/apache/tomcat'
+    trinidad_libs = File.expand_path('trinidad-libs', File.dirname(__FILE__))
 
-  dbcp_jar = "tomcat-dbcp.jar"
+    tomcat_pool_jar = "#{tomcat_pool}.jar"
 
-  task :download, :version do |_, args| # rake tomcat-dbcp:download[7.0.41]
-    version = args[:version]
+    task :download, :version do |_, args| # rake tomcat-jdbc:download[7.0.54]
+      version = args[:version]
 
-    dbcp_uri = "#{TOMCAT_MAVEN_REPO}/tomcat-dbcp/#{version}/tomcat-dbcp-#{version}.jar"
+      uri = "#{tomcat_maven_repo}/#{tomcat_pool}/#{version}/#{tomcat_pool}-#{version}.jar"
 
-    require 'open-uri'; require 'tmpdir'
+      require 'open-uri'; require 'tmpdir'
 
-    temp_dir = File.join(Dir.tmpdir, (Time.now.to_f * 1000).to_i.to_s)
-    FileUtils.mkdir temp_dir
+      temp_dir = File.join(Dir.tmpdir, (Time.now.to_f * 1000).to_i.to_s)
+      FileUtils.mkdir temp_dir
 
-    downloads = Hash.new
-    downloads[dbcp_jar] = dbcp_uri
-
-    Dir.chdir(temp_dir) do
-      FileUtils.mkdir TRINIDAD_LIBS unless File.exist?(TRINIDAD_LIBS)
-      downloads.each do |jar, uri|
+      Dir.chdir(temp_dir) do
         puts "downloading #{uri}"
         file = open(uri)
-        FileUtils.cp file.path, File.join(TRINIDAD_LIBS, jar)
+        FileUtils.cp file.path, File.join(trinidad_libs, tomcat_pool_jar)
+      end
+
+      FileUtils.rm_r temp_dir
+    end
+
+    task :check do
+      jar_path = File.join(trinidad_libs, tomcat_pool_jar)
+      unless File.exist?(jar_path)
+        Rake::Task["#{tomcat_pool}:download"].invoke
       end
     end
 
-    FileUtils.rm_r temp_dir
-  end
-
-  task :check do
-    jar_path = File.join(TRINIDAD_LIBS, dbcp_jar)
-    unless File.exist?(jar_path)
-      Rake::Task['tomcat-jndi:download'].invoke
+    task :clear do
+      jar_path = File.join(trinidad_libs, tomcat_pool_jar)
+      rm jar_path if File.exist?(jar_path)
     end
-  end
 
-  task :clear do
-    jar_path = File.join(TRINIDAD_LIBS, dbcp_jar)
-    rm jar_path if File.exist?(jar_path)
   end
 
 end
