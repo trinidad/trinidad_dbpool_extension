@@ -6,8 +6,11 @@ rvm:
   - jruby-18mode
   - jruby-19mode
   - jruby-head
-#before_install:
-  #- export JRUBY_OPTS="--server -Xcext.enabled=false -Xcompile.invokedynamic=false"
+before_install:
+  - ((jruby -v | grep 1.8.7) && jruby --1.9 -S gem update --system 2.1.11) || true
 matrix:
   allow_failures:
     - rvm: jruby-head
+  exclude:
+    - rvm: jruby-head
+      jdk: openjdk6
