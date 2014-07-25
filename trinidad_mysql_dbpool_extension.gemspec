@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |gem|
   gem.name = "trinidad_mysql_dbpool_extension"
-  gem.version = '0.7.0'
+  gem.version = '0.8.0'
 
   gem.summary = "Addon to support MySQL database pools in Trinidad"
   gem.description = "Addon to support MySQL database pools in Trinidad"
@@ -20,6 +20,6 @@ Gem::Specification.new do |gem|
 
   gem.extra_rdoc_files = [ 'README.md', 'History.txt', 'LICENSE' ]
 
-  gem.add_dependency('trinidad_dbpool', ">= 0.7.0")
+  gem.add_dependency('trinidad_dbpool', ">= 0.8.0")
   gem.add_dependency('jdbc-mysql', ">= 5.1.25")
 end
